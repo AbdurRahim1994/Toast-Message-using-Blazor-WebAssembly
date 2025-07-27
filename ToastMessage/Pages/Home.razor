@@ -1,0 +1,72 @@
+﻿@page "/"
+@inject ToastMessage.Helper.ToastHelper ToastService
+
+<PageTitle>Home</PageTitle>
+
+<h1 class="text-center">Toast Message</h1>
+
+<style>
+	body {
+	background: #F2F2F2;
+	}
+
+	.card {
+	background: #FFFFFF;
+	}
+</style>
+
+<div class="row d-flex justify-content-center">
+	<div class="col-md-4">
+		<div class="card">
+			<div class="card-body">
+				<EditForm Model="user">
+					<div class="row">
+						<div class="col-md-12 mb-3">
+							<InputText @bind-Value="user.Name" class="form-control" placeholder="Enter your name"></InputText>
+						</div>
+						<div class="col-md-12 mb-3">
+							<InputText @bind-Value="user.Email" class="form-control" placeholder="Enter your email"></InputText>
+						</div>
+						<div class="col-md-12 mb-3">
+							<InputText @bind-Value="user.Phone" class="form-control" placeholder="Enter your phone"></InputText>
+						</div>
+						<div class="col-md-12 mb-3">
+							<button type="button" class="btn btn-primary" @onclick="FormSubmit">Sumbit</button>
+						</div>
+					</div>
+				</EditForm>
+			</div>
+		</div>
+	</div>
+</div>
+
+@code{
+	private class UserInfo
+	{
+		public string Name { get; set; }
+		public string Email { get; set; }
+		public string Phone { get; set; }
+	}
+
+	UserInfo user = new UserInfo();
+
+	private void FormSubmit()
+	{
+		if (string.IsNullOrWhiteSpace(user.Name))
+		{
+			ToastService.ErrorToast("Name is required");
+		}
+		else if (string.IsNullOrWhiteSpace(user.Email))
+		{
+			ToastService.ErrorToast("Email is required");
+		}
+		else if (string.IsNullOrWhiteSpace(user.Phone))
+		{
+			ToastService.ErrorToast("Phone is required");
+		}
+		else
+		{
+			ToastService.SuccessToast("Form submitted successfully");
+		}
+	}
+}
